@@ -56,6 +56,7 @@ AI 视频模型（Seedance、Kling、Runway、Wan、Stable Diffusion 系视频�
 小贴士：
 - 视频长度、帧率、比例尽量和目标模型的输出规格一致（例如 5 秒、24/30fps、16:9 或 9:16）
 - 很多平台不收 WebM，可以先转 MP4：`ffmpeg -i whitebox.webm -c:v libx264 -pix_fmt yuv420p whitebox.mp4`
+- 录制按实时节奏逐帧进行；如果电脑渲染跟不上（例如无独显、超大场景），WebM 时长会比时间轴略长，可用 `ffmpeg -i in.webm -vf "setpts=N/30/TB" -r 30 -c:v libx264 -pix_fmt yuv420p out.mp4` 按帧数重排为准确时长（30 换成你的帧率）
 - 各模型对参考视频的支持方式和参数名不同，以对应平台文档为准
 
 ### 本地运行
@@ -106,6 +107,7 @@ Built for AI film / ad / MV teams doing previs that must be controllable and rep
 - **First frame**: render the PNG into a finished frame with an image model (+ ControlNet depth/normal), then use it as the image-to-video first frame.
 - **Depth / normal control**: switch render mode and export as control input.
 - Many platforms don't accept WebM: `ffmpeg -i whitebox.webm -c:v libx264 -pix_fmt yuv420p whitebox.mp4`.
+- Recording is paced in real time; on slow GPUs the WebM can run longer than the timeline. Re-time it by frame count: `ffmpeg -i in.webm -vf "setpts=N/30/TB" -r 30 -c:v libx264 -pix_fmt yuv420p out.mp4`.
 - Support and parameter names vary by platform; check each model's docs.
 
 ### Run locally
